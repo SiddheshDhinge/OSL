@@ -1,8 +1,9 @@
 #include <stdio.h>
-
-void line()
+void line(int n)
 {
-	printf("===================================================\n");
+	for (int i = 0; i < n; i++)
+		printf("=");
+	printf("\n");
 }
 
 int main()
@@ -10,69 +11,69 @@ int main()
 	int p;
 	printf("Enter number of processes : ");
 	scanf("%d", &p);
-	
+
 	int at[p], bt[p];
-	
+
 	int total_time = 0;
 	printf("Enter arrival and Burst time\n");
-	for(int i=0;i<p;i++)
+	for (int i = 0; i < p; i++)
 	{
-		printf("Process %d : ", i +1);
+		printf("Process %d : ", i + 1);
 		scanf("%d", &at[i]);
 		scanf("%d", &bt[i]);
 		total_time += bt[i];
 	}
-	
+
 	int clock = 0;
 	int queue[total_time];
-	
+
 	int exe = -1;
 
-	while(clock != total_time)
+	while (clock != total_time)
 	{
 		exe = -1;
-		for(int i=0;i<p;i++)
+		for (int i = 0; i < p; i++)
 		{
-			if(clock >= at[i] && bt[i] > 0)
+			if (clock >= at[i] && bt[i] > 0)
 			{
-				if( exe == -1 )
+				if (exe == -1)
 				{
 					exe = i;
 				}
-				else if(bt[exe] > bt[i])
+				else if (bt[exe] > bt[i])
 				{
 					exe = i;
 				}
 			}
 		}
-		if(exe != -1)
+		if (exe != -1)
 			bt[exe]--;
 		queue[clock] = exe;
 		clock++;
 	}
-	
-	line();
-	for(int i=0;i<total_time;i++)
+
+	line(2 * total_time);
+	for (int i = 0; i < total_time; i++)
 	{
 		printf("%d ", queue[i] + 1);
 	}
 	printf("\n");
-	line();
-	
+	line(2 * total_time);
+
 	int ct[p], tat[p], wt[p];
 
-	for(int i = 0;i<p;i++)
+	for (int i = 0; i < p; i++)
 	{
 		int tbt = 0;
 		int tstart = -1;
 		int last = -1;
-		for(int j=0;j<total_time;j++)
+		for (int j = 0; j < total_time; j++)
 		{
-			if(queue[j] == i)
+			if (queue[j] == i)
 			{
 				tbt++;
 				last = j;
-				if(tstart == -1)
+				if (tstart == -1)
 					tstart = j;
 			}
 		}
@@ -82,16 +83,16 @@ int main()
 		wt[i] = tat[i] - tbt;
 	}
 
-	line();
-	printf("AT\tCT\tTAT\tWT\n");
-	for(int i=0;i<p;i++)
+	line(44);
+	printf("%10s|%10s|%10s|%10s|\n", "A. T.","C. T.","T. A. T.","W. T.");
+	for (int i = 0; i < p; i++)
 	{
-		printf("%d\t%d\t%d\t%d\n", at[i], ct[i], tat[i], wt[i]);
+		printf("%10d|%10d|%10d|%10d|\n", at[i], ct[i], tat[i], wt[i]);
 	}
-	line();
+	line(44);
 
-	double avg_tat=0, avg_wt=0; 
-	for(int i=0;i<p;i++)
+	double avg_tat = 0, avg_wt = 0;
+	for (int i = 0; i < p; i++)
 	{
 		avg_tat += tat[i];
 		avg_wt += wt[i];
@@ -106,7 +107,6 @@ int main()
 	return 0;
 }
 
-
 /*OUTPUT -
 Enter number of processes : 4
 Enter arrival and Burst time
@@ -115,7 +115,7 @@ Process 2 : 2 4
 Process 3 : 4 1
 Process 4 : 5 4
 ===================================================
-1 1 2 2 3 2 2 4 4 4 4 1 1 1 1 1 
+1 1 2 2 3 2 2 4 4 4 4 1 1 1 1 1
 ===================================================
 ===================================================
 AT      CT      TAT     WT
@@ -137,7 +137,7 @@ Process 3 : 0 15
 Process 4 : 16 4
 Process 5 : 10 11
 ===================================================
-3 3 3 2 2 2 2 2 1 1 2 2 2 5 5 5 4 4 4 4 5 5 5 5 5 5 5 5 3 3 3 3 3 3 3 3 3 3 3 3 
+3 3 3 2 2 2 2 2 1 1 2 2 2 5 5 5 4 4 4 4 5 5 5 5 5 5 5 5 3 3 3 3 3 3 3 3 3 3 3 3
 ===================================================
 ===================================================
 AT      CT      TAT     WT
