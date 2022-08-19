@@ -1,9 +1,8 @@
 #include <stdio.h>
-#include <stdbool.h>
 
 struct process
 {
-    int at, bt;
+    int pid, at, bt;
 };
 
 void line(int n)
@@ -12,7 +11,6 @@ void line(int n)
 		printf("=");
 	printf("\n");
 }
-
 int main()
 {
     int p;
@@ -28,46 +26,37 @@ int main()
         printf("Process %d : ", i + 1);
         scanf("%d", &arr[i].at);
         scanf("%d", &arr[i].bt);
+
+        arr[i].pid = i;
         total_time += arr[i].bt;
     }
 
-    int clock = 0;
+    for(int i = 0;i<p;i++)
+    {
+        for(int j = 0;j<p-i-1;j++)
+        {
+            if(arr[j].at > arr[j+1].at)
+            {
+                struct process temp = arr[j+1];
+                arr[j+1] = arr[j];
+                arr[j] = temp;
+            }
+        }
+    }
+
     int gantt[total_time];
 
-    int exe = -1;
-    int t_exe = -1;
+    int clock = 0;
 
-    while(clock < total_time)
+    for(int i = 0;i<p;i++)
     {
-        if(exe != -1 && t_exe > 0)
+        for(int j = 0;j<arr[i].bt;j++)
         {
-            t_exe--;
+            gantt[clock] = arr[i].pid;
+            clock++;
         }
-        else
-        {
-            if(t_exe == 0)
-            {
-                arr[exe].bt = 0;
-            }
-            for(int i =0;i<p;i++)
-            {
-                if(arr[i].at <= clock)
-                {
-                    if(exe == -1)
-                    {
-                        exe = i;
-                    }
-                    else if((arr[exe].bt > arr[i].bt && arr[i].bt != 0) || arr[exe].bt == 0)
-                    {
-                        exe = i;
-                    }
-                }
-            }
-            t_exe = arr[exe].bt -1;
-        }
-        gantt[clock] = exe;
-        clock++;
     }
+
 
     line(2 * total_time);
     for(int i=0;i<total_time;i++)
@@ -76,6 +65,7 @@ int main()
     }
     printf("\n");
     line(2 * total_time);
+
 
     int ct[p], bt[p], tat[p], wt[p];
     for(int i=0;i<p;i++)
@@ -119,5 +109,9 @@ int main()
     avg_wt/=p;
     printf("Average T. A. T. : %f\n", avg_tat);
     printf("Average W. T. : %f\n", avg_wt);
+
+    return 0;
 }
+
 //4 0 7 2 4 4 1 5 4
+//5 8 2 3 8 0 15 16 4 10 11
