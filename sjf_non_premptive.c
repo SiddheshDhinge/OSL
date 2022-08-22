@@ -6,6 +6,13 @@ struct process
     int at, bt;
 };
 
+int abs(int a)
+{
+    if(a < 0)
+        return -a;
+    return a;
+}
+
 void line(int n)
 {
 	for (int i = 0; i < n; i++)
@@ -18,6 +25,7 @@ int main()
     int p;
     printf("Enter no. of processes : ");
     scanf("%d", &p);
+    p = abs(p);
 
     struct process arr[p];
 
@@ -28,6 +36,10 @@ int main()
         printf("Process %d : ", i + 1);
         scanf("%d", &arr[i].at);
         scanf("%d", &arr[i].bt);
+        
+        arr[i].at = abs(arr[i].at);
+        arr[i].bt = abs(arr[i].bt);
+
         total_time += arr[i].bt;
     }
 
@@ -120,4 +132,46 @@ int main()
     printf("Average T. A. T. : %f\n", avg_tat);
     printf("Average W. T. : %f\n", avg_wt);
 }
-//4 0 7 2 4 4 1 5 4
+
+/*OUTPUT -
+Enter no. of processes : 4
+Enter Arrival and Burst Time.
+Process 1 : 0 7
+Process 2 : 2 4
+Process 3 : 4 1
+Process 4 : 5 4
+================================
+1 1 1 1 1 1 1 3 2 2 2 2 4 4 4 4
+================================
+==================================================================
+Process No|     A. T.|     C. T.|     B. T.|  T. A. T.|     W. T.|
+Process  1|         0|         7|         7|         7|         0|
+Process  2|         2|        12|         4|        10|         6|
+Process  3|         4|        12|         1|         8|         7|
+Process  4|         5|        16|         4|        11|         7|
+==================================================================
+Average T. A. T. : 9.000000
+Average W. T. : 5.000000
+
+
+Enter no. of processes : 5
+Enter Arrival and Burst Time.
+Process 1 : 8 2
+Process 2 : 3 8
+Process 3 : 0 15
+Process 4 : 16 4
+Process 5 : 10 11
+================================================================================
+3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 1 1 4 4 4 4 2 2 2 2 2 2 2 2 5 5 5 5 5 5 5 5 5 5 5
+================================================================================
+==================================================================
+Process No|     A. T.|     C. T.|     B. T.|  T. A. T.|     W. T.|
+Process  1|         8|        17|         2|         9|         7|
+Process  2|         3|        29|         8|        26|        18|
+Process  3|         0|        15|        15|        15|         0|
+Process  4|        16|        21|         4|         5|         1|
+Process  5|        10|        40|        11|        30|        19|
+==================================================================
+Average T. A. T. : 17.000000
+Average W. T. : 9.000000
+*/
