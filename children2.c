@@ -1,13 +1,13 @@
 #include <stdio.h>
 int main(int argc, char *argv[])
 {
-    printf("IN PRINTING CHILD\n");
+    printf("PRINTING CHILD : STARTED\n");
 
-    printf("REVERSE ORDER\n");
+    printf("PRINTING CHILD : REVERSE ORDER IS : ");
     for (int i = 1; i < argc; i++)
     {
-        printf("%s\n", argv[i]);
+        printf("%s ", argv[i]);
     }
-
+    printf("\n");
     return 0;
 }

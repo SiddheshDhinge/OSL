@@ -3,26 +3,31 @@
 
 int main(int argc, char *argv[])
 {
-    printf("IN REVERSING CHILD\n");
-/* 
-    for (int i = 1; i < argc; i++)
+    printf("CHILD : STARTED\n");
+
+    printf("CHILD : RECEIVED ARGUEMENTS\n");
+    for (int i = 0; i < argc; i++)
     {
-        printf("%s\n", argv[i]);
+        printf("CHILD : args[%d] : %s\n", i, argv[i]);
     }
- */
-    char *newArgs[argc];
-    int j = 0, n = argc -1;
+
+    char *cmd = "./children2";
+    char *newArgs[argc + 1];
+    char *envp[] = {NULL};
+
+    newArgs[0] = cmd;
+
+    int j = 1, n = argc -1;
     for (int i = n; i > 0; i--)
     {
         newArgs[j++] = argv[i];
     }
-    newArgs[n] = NULL;
-    char *envp[] = {NULL};
-    char *cmd = "./children2";
+
+    newArgs[argc] = NULL;
     
     if(execve(cmd, newArgs, envp) == -1)
     {
-        printf("REVERSING CHILD FAILED EXECVE\n");
+        printf("CHILD : FAILED EXECVE\n");
     }
 
     return 0;
