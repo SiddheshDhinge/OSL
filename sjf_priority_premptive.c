@@ -127,7 +127,7 @@ int main()
 // 5 8 2 3 3 8 5 0 15 4 16 4 1 10 11 2
 // 5 5 4 5 0 9 4 15 7 2 12 12 1 8 6 3
 
-/* OUTPUT -
+/*OUTPUT -
 Enter number of processes : 5
 Enter arrival and Burst time and Priority
 Process 1 : 8 2 3
