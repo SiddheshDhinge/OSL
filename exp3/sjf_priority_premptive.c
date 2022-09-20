@@ -172,3 +172,4 @@ Process No|     A. T.|     B. T.|  Priority|     C. T.|  T. A. T.|     W. T.|
 Average Turn Around Time : 24.000000
 Average Waiting Time : 16.400000
 */
+// 5 9 4 1 3 4 2 0 8 3 1 6 4 12 6 2
