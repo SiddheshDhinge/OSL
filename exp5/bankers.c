@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <stdbool.h>
 
-#define n 5
-#define m 3
+#define n 6
+#define m 4
 
 int available[m];
 int allocation[n][m];
@@ -23,57 +23,117 @@ bool isSafe()
     {
         work[i] = available[i];
     }
-
     printf("init\n");
     for(int k = 0;k<n;k++)
     {
+        bool lflag = true;
         for(int i=0;i<n;i++)
         {
-            if(finish[i] = true)
+            printf("TRY %d\n", i);
+            if(finish[i] == true)
                 continue;
 
             bool less = true;
 
             for(int j=0;j<m;j++)
             {
+                printf("%d | %d\n", need[i][j], work[j]);
                 if(need[i][j] > work[j])
                     less = false;
             }
 
             if(less)
             {
-                printf("%d \n", i);
+                printf("LESS %d\n", i);
+                lflag = false;
                 for(int j = 0;j<m;j++)
                 {
                     work[j] = work[j] + allocation[i][j];
                 }
                 finish[i] = true;
-                sequence[k] = i ;
+                sequence[k] = i;
                 break;
             }
-            else
-            {
-                return false;
-            }
+        }
+        if(lflag)
+        {
+            return false;
         }
     }
 
     printf("Seqeunce = ");
     for(int i=0;i<n;i++)
     {
-        printf("%d ", sequence[i]);
+        printf("%d ", sequence[i] +1);
     }
     printf("\n");
     return true;
 }
+
+void resource_request()
+{
+    printf("Enter process id : ");
+    int pid;
+    scanf("%d", &pid);
+    pid--; // 0 based indexing
+    printf("Enter Reuest vector : ");
+    int request[3];
+    for(int i=0;i<m;i++)
+    {
+        scanf("%d", &request[i]);
+    }
+
+    for(int i=0;i<m;i++)
+    {
+        if(need[pid][i] < request[i])
+        {
+            printf("ERROR : Requested resource must be less than need.\n");
+            return;
+        }
+    }
+
+    for(int i=0;i<m;i++)
+    {
+        if(available[i] < request[i])
+        {
+            printf("Process must wait some time till resources are available.\n");
+            return;
+        }
+    }
+
+
+    for(int i=0;i<m;i++)
+    {
+        available[i] -= request[i];
+        allocation[pid][i] += request[i];
+        need[pid][i] -= request[i];
+    }
+
+    if(isSafe())
+    {
+        printf("Resources Allocated Successfully.\n");
+    }
+    else
+    {
+        for(int i=0;i<m;i++)
+        {
+            available[i] += request[i];
+            allocation[pid][i] -= request[i];
+            need[pid][i] += request[i];
+        }
+
+        printf("Going into unsafe state. Resource Allocation Aborted.\n");
+    }
+}
+
 int main()
 {
-    printf("available :\n");
+    printf("Enter Available Vector :\n");
     for(int i=0;i<m;i++)
     {
         scanf("%d", &available[i]);
     }
-    printf("allocation :\n");
+    printf("Enter Allocation Matrix :\n");
     for(int i=0;i<n;i++)
     {
         for(int j=0;j<m;j++)
@@ -82,7 +142,7 @@ int main()
         }
     }
 
-    printf("need :\n");
+    printf("Enter Need Matrix :\n");
     for(int i=0;i<n;i++)
     {
         for(int j=0;j<m;j++)
@@ -91,12 +151,15 @@ int main()
         }
     }
 
-    printf("SAFE - %d\n", isSafe());
-
+    while(1)
+    {
+        resource_request();
+    }
     return 0;
 }
 
 /*
+safe 1 = 
 2 2 2
 1 2 3
 3 0 1
@@ -108,4 +171,19 @@ int main()
 2 1 2
 6 2 3
 2 3 2 
+
+safe 2
+6 3 5 4
+2 0 2 1
+0 1 1 1
+4 1 0 2
+1 0 0 1
+1 1 0 0
+1 0 1 1
+7 5 3 4
+2 1 2 2
+3 4 4 2
+2 3 3 1
+4 1 2 1
+3 4 3 3
 */
