@@ -126,3 +126,37 @@ int main()
 	}
 	return 0;
 }
+
+/*OUTPUT-
+Main Parent: 2691
+
+Parent: Starting
+
+Parent: Parent ID: 2691
+
+Parent: My ID: 7640
+
+Parent: Started Sorting
+
+Child: Starting
+
+Child: Parent ID: 7640
+
+Child: My ID: 7641
+
+Child: Started Sorting
+
+Child: Sorting Complete
+1 2 3 4 
+
+Child: Became Zombie
+
+Parent: Sorting Complete
+1 2 3 4 5 6 7 8 9 10 
+
+Parent: Exiting
+
+*/
+/*OUTPUT TOP-
+Tasks: 168 total,   1 running, 131 sleeping,   0 stopped,   1 zombie
+*/

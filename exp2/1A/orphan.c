@@ -37,3 +37,36 @@ int main()
 	}
 	return 0;
 }
+
+/*OUTPUT-
+Main Parent: 2691
+
+Entered parent
+
+Parent ID: 7533
+
+Entered child
+
+Parent ID: 7533
+
+Childs ID: 7534
+
+back in parent
+
+x = 51
+
+Parent is Exiting
+osboxes@osboxes:~/TE/OSL/exp2/1A$ 
+back in child
+
+Now Child is Orphan
+
+Parent ID: 1832
+
+Orphan Childs ID: 7534
+
+x = 11
+
+Orphan Child is Exiting
+
+*/
