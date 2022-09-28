@@ -22,6 +22,7 @@ bool isSafe()
     for(int i=0;i<m;i++)
     {
         work[i] = available[i];
+        printf("%d ", work[i]);
     }
     printf("init\n");
     for(int k = 0;k<n;k++)
@@ -74,7 +75,7 @@ void resource_request()
 {
     printf("Enter process id : ");
     int pid;
-    scanf("%d", &pid);
+    scanf(" %d", &pid);
     pid--; // 0 based indexing
     printf("Enter Reuest vector : ");
     int request[3];
