@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <stdbool.h>
 
-#define n 6
-#define m 4
+#define n 5
+#define m 3
 
 int available[m];
 int allocation[n][m];
@@ -22,15 +22,12 @@ bool isSafe()
     for(int i=0;i<m;i++)
     {
         work[i] = available[i];
-        printf("%d ", work[i]);
     }
-    printf("init\n");
     for(int k = 0;k<n;k++)
     {
         bool lflag = true;
         for(int i=0;i<n;i++)
         {
-            printf("TRY %d\n", i);
             if(finish[i] == true)
                 continue;
 
@@ -38,14 +35,12 @@ bool isSafe()
 
             for(int j=0;j<m;j++)
             {
-                printf("%d | %d\n", need[i][j], work[j]);
                 if(need[i][j] > work[j])
                     less = false;
             }
 
             if(less)
             {
-                printf("LESS %d\n", i);
                 lflag = false;
                 for(int j = 0;j<m;j++)
                 {
@@ -77,8 +72,8 @@ void resource_request()
     int pid;
     scanf(" %d", &pid);
     pid--; // 0 based indexing
-    printf("Enter Reuest vector : ");
-    int request[3];
+    printf("Enter Request vector : ");
+    int request[m];
     for(int i=0;i<m;i++)
     {
         scanf("%d", &request[i]);
@@ -143,12 +138,20 @@ int main()
         }
     }
 
-    printf("Enter Need Matrix :\n");
+    printf("Enter Max Matrix :\n");
     for(int i=0;i<n;i++)
     {
         for(int j=0;j<m;j++)
         {
-            scanf("%d", &need[i][j]);
+            scanf("%d", &max[i][j]);
+        }
+    }
+
+    for(int i=0;i<n;i++)
+    {
+        for(int j=0;j<m;j++)
+        {
+            need[i][j] = max[i][j] - allocation[i][j];
         }
     }
 
@@ -158,33 +161,82 @@ int main()
     }
     return 0;
 }
-
-/*
-safe 1 = 
+/*OUTPUT -
+Enter Available Vector :
 2 2 2
+Enter Allocation Matrix :
+1 2 3 
+3 0 1
+2 2 0
+1 3 1
+0 2 3
+Enter Max Matrix :
+4 4 8
+7 1 4
+4 3 2
+7 5 4
+2 5 5
+Enter process id : 2
+Enter Request vector : 0 1 0
+Seqeunce = 3 5 1 2 4 
+Resources Allocated Successfully.
+
+Enter Available Vector :
+2 2 2
+Enter Allocation Matrix :
 1 2 3
 3 0 1
 2 2 0
 1 3 1
 0 2 3
-3 2 5
-4 1 3
-2 1 2
-6 2 3
-2 3 2 
+Enter Max Matrix :
+4 4 8 
+7 1 4 
+4 3 2 
+7 5 4
+2 5 5 
+Enter process id : 4
+Enter Request vector : 0 0 1
+Going into unsafe state. Resource Allocation Aborted.
 
-safe 2
+Enter Available Vector :
 6 3 5 4
+Enter Allocation Matrix :
 2 0 2 1
 0 1 1 1
 4 1 0 2
 1 0 0 1
 1 1 0 0
 1 0 1 1
-7 5 3 4
-2 1 2 2
-3 4 4 2
-2 3 3 1
-4 1 2 1
-3 4 3 3
+Enter Max Matrix :
+9 5 5 5
+2 2 3 3
+7 5 4 4
+3 3 3 2
+5 2 2 1
+4 4 4 4
+Enter process id : 6
+Enter Request vector : 3 2 3 3
+Going into unsafe state. Resource Allocation Aborted.
+
+Enter Available Vector :
+6 3 5 4
+Enter Allocation Matrix :
+2 0 2 1
+0 1 1 1
+4 1 0 2
+1 0 0 1
+1 1 0 0
+1 0 1 1
+Enter Max Matrix :
+9 5 5 5 
+2 2 3 3
+7 5 4 4
+3 3 3 2
+5 2 2 1
+4 4 4 4
+Enter process id : 6
+Enter Request vector : 1 0 1 1
+Seqeunce = 2 3 1 4 5 6 
+Resources Allocated Successfully.
 */
