@@ -1,5 +1,6 @@
 #!/bin/bash
 bookFile="book.txt"
+touch "$bookFile"
 createBook()
 {
 	printf "Enter Book Name : "
@@ -15,22 +16,29 @@ createBook()
 
 insert()
 {
-	printf "Enter Name: "
-	read name
-
 	printf "Enter Mobile: "
 	read mobile
 
-	printf "Enter Address: "
-	read addr
+	grep -qwi "^$mobile" "$bookFile"
 	
-	printf "Enter Email: "
-	read email
+	if [ $? -eq 0 ]
+	then
+		echo "Already registered."
+	else
+		printf "Enter Name: "
+		read name
 
-	printf "Enter Zip: "
-	read zipCode
+		printf "Enter Address: "
+		read addr
+	
+		printf "Enter Email: "
+		read email
 
-	printf "%10s %10s %10s %10s %10s\n" "$name" "$mobile" "$addr" "$email" "$zipCode" >> "$bookFile"
+		printf "Enter Zip: "
+		read zipCode
+
+		printf "%-10s %-10s %-10s %-10s %-10s\n" "$mobile" "$name" "$addr" "$email" "$zipCode" >> "$bookFile"
+	fi
 }
 
 view()
@@ -40,24 +48,31 @@ view()
 
 update()
 {
-	printf "Enter Name: "
-	read name
-
 	printf "Enter Mobile: "
 	read mobile
-
-	printf "Enter Address: "
-	read addr
 	
-	printf "Enter Email: "
-	read email
-
-	printf "Enter Zip: "
-	read zipCode
-
-	newData=`printf "%10s %10s %10s %10s %10s\n" "$name" "$mobile" "$addr" "$email" "$zipCode"`
+	grep -qwi "^$mobile" "$bookFile"
 	
-	sed -i "s/.*\b$mobile\b.*/$newData/" "$bookFile"
+	if [ $? -ne 0 ]
+	then
+		echo "Wrong mobile no."
+	else
+		printf "Enter Name: "
+		read name
+
+		printf "Enter Address: "
+		read addr
+	
+		printf "Enter Email: "
+		read email
+
+		printf "Enter Zip: "
+		read zipCode
+
+		newData=`printf "%-10s %-10s %-10s %-10s %-10s\n" "$mobile" "$name" "$addr" "$email" "$zipCode"`
+	
+		sed -i "s/^$mobile\b.*/$newData/" "$bookFile"
+	fi
 }
 
 delete()
@@ -65,43 +80,64 @@ delete()
 	printf "Enter Mobile: "
 	read mobile
 	
-	sed -i "/.*\b$mobile\b.*/d" "$bookFile"
+	grep -qwi "^$mobile" "$bookFile"
+	if [ $? -ne 0 ]
+	then
+		echo "Wrong mobile no."
+	else
+		sed -i "/^$mobile.*/d" "$bookFile"
+		echo "Deletion Success."
+	fi
+}
+
+search()
+{
+	printf "Enter mobile: "
+	read mobile
+	
+	grep -qwi "^$mobile" "$bookFile"
+	if [ $? -ne 0 ]
+	then
+		echo "No Such Record."
+	else
+		grep -wi "^$mobile" "$bookFile"
+	fi
 }
 
 main()
 {
+	while [ true ]
+	do
+		echo "1) Create Address Book"
+		echo "2) Insert Record"
+		echo "3) View Records"
+		echo "4) Update Record"
+		echo "5) Delete Record"
+		echo "6) Search Record"
+		echo "7) Exit"
 
-	echo "1) Create Address Book"
-	echo "2) Insert Record"
-	echo "3) View Records"
-	echo "4) Update Record"
-	echo "5) Delete Record"
-	echo "6) Search Record"
-	echo "7) Exit"
+		printf "Enter Choice: "
+		read choice
 
-	printf "Enter Choice: "
-	read choice
-
-	case $choice in
-			1 )	createBook
-				;;
-			2 )	insert
-				;;
-			3 )	view
-				;;
-			4 )	update
-				;;
-			5 )	delete
-				;;
-			6 )	search
-				;;
-			7 )	exit
-				;;
-			* )	echo "Wrong Choice"
-				;;
-
-
-	esac
-
+		case $choice in
+				1 )	createBook
+					;;
+				2 )	insert
+					;;
+				3 )	view
+					;;
+				4 )	update
+					;;
+				5 )	delete
+					;;
+				6 )	search
+					;;
+				7 )	exit
+					;;
+				* )	echo "Wrong Choice"
+					;;
+		esac
+	done
 }
+
 main

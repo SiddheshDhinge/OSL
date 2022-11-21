@@ -1,0 +1,39 @@
+#include <stdio.h>
+#include <unistd.h>
+
+int main()
+{
+	int id = fork();
+	if(id == 0)
+	{
+		printf("CHILD : Started\n");
+		printf("CHILD : Parent ID - %d\n", getppid());
+		printf("CHILD : My ID - %d\n", getpid());
+		printf("CHILD : Sleeping\n");
+		
+		sleep(10);
+		
+		printf("\n");
+		printf("CHILD : Woke up\n");		
+		printf("CHILD : Became Orphan\n");
+		printf("CHILD : Parent ID - %d\n", getppid());
+		printf("CHILD : My ID - %d\n", getpid());
+		
+		printf("CHILD : Exitting\n");
+		exit();
+	}
+	else
+	{
+		printf("PARENT : Started\n");
+		printf("PARENT : Parent ID - %d\n", getppid());
+		printf("PARENT : My ID - %d\n", getpid());
+		printf("PARENT : Sleeping\n");
+		
+		sleep(1);
+		
+		printf("PARENT : Woke up\n");
+		printf("PARENT : Not Waiting for child\n");
+		printf("PARENT : Exitting\n");
+	}	
+	return 0;
+}
