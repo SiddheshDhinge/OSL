@@ -113,6 +113,7 @@ int main()
             gantt[i] = exe;
         }
         clock+=cq;
+	printf("%d\n", clock);
     }
 
     line(2 * total_time);
@@ -170,6 +171,18 @@ int main()
 }
 
 /*OUTPUT -
+
+5
+3
+8 2
+3 8
+1 15
+16 4
+10 11
+
+
+
+
 Enter no of processes: 5
 Enter Time Quantum : 4
 Enter Arrival and Burst Time.

@@ -45,14 +45,17 @@ process remove_first()
 {
     process data;
     data.pid = -1;
+    
+	if(front == -1 && last == -1)
+		return data;
+
+    data = queue[front];
     if(front == last)
     {   
-        data = queue[front];
         front = last = -1;
     }
     else
     {
-        data = queue[front];
         front = (front + 1) % size;
     }
     return data;
