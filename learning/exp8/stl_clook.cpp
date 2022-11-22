@@ -9,7 +9,6 @@ int main()
     for(int i=0;i<n;i++)
         cin>>req[i];
     
-    req.push_back(199);
     sort(req.begin(), req.end());
 
     vector<int> from, to;
@@ -24,7 +23,7 @@ int main()
         head = *it;
     }
 
-    for(auto it = mid-1; it!=req.begin()-1; it--)
+    for(auto it = req.begin(); it!=mid; it++)
     {
         from.push_back(head);
         to.push_back(*it);

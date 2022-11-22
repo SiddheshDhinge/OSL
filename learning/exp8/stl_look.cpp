@@ -9,7 +9,6 @@ int main()
     for(int i=0;i<n;i++)
         cin>>req[i];
     
-    req.push_back(199);
     sort(req.begin(), req.end());
 
     vector<int> from, to;
