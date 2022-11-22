@@ -269,7 +269,7 @@ int main()
     printf("Enter initial postition: ");
     scanf("%d", &head);
 
-    while(1)
+    // while(1)
     {
         int arrCopy[n];
         for(int i=0;i<n;i++)

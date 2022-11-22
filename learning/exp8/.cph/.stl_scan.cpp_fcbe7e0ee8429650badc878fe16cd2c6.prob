@@ -1,0 +1,1 @@
+{"name":"Local: stl_scan","url":"c:\\programs\\TE\\LABS\\OSL\\learning\\exp8\\stl_scan.cpp","tests":[{"id":1669123630994,"input":"6 50\n102 32 198 45 134 73","output":"50 73 102 134 198 199 45\n73 102 134 198 199 45 32\n316"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"c:\\programs\\TE\\LABS\\OSL\\learning\\exp8\\stl_scan.cpp","group":"local","local":true}
